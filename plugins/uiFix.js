@@ -31,13 +31,30 @@ if (addons.addonIsEnabled("lunes2USD")) {
                 const dot = document.createElement("span");
                 dot.classList = "mx-1";
                 dot.innerHTML = "•";
-                span.innerText = "$" + (Number(card.children[1].children[1].children[3].innerText) * .01).toFixed(2) // more currencies to come, eventually
+                span.innerText = "$" + (Number(card.children[1].children[1].children[3].innerText) * .01).toFixed(2); // more currencies to come, eventually
                 card.children[1].children[1].appendChild(dot)
                 card.children[1].children[1].appendChild(span);
                 card.setAttribute("priced", "true")
             } catch (e) {
 
             }
+        }
+        function convertNavPrice() {
+            const nav = document.querySelector("nav");
+            if (!nav) return;
+
+            const lunesTextEl = Array.from(nav.querySelectorAll("span"))
+                .find(span =>
+                    Array.from(span.parentElement.querySelectorAll("div"))
+                        .some(div => div.querySelector("svg"))
+                );
+
+            if (!lunesTextEl) return;
+
+            const span = document.createElement("span");
+            span.innerText = " $" + (Number(lunesTextEl.textContent)).toFixed(2);
+
+            lunesTextEl.appendChild(span);
         }
         observer = new MutationObserver((e) => {
             document.querySelectorAll('[data-slot="card"]').forEach(convertPrice);
