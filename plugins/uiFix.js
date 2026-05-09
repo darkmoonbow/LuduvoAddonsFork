@@ -58,6 +58,7 @@ if (addons.addonIsEnabled("lunes2USD")) {
         }
         observer = new MutationObserver((e) => {
             document.querySelectorAll('[data-slot="card"]').forEach(convertPrice);
+            convertNavPrice();
         });
         observer.observe(document.body, { childList: true, subtree: true });
     }, ()=>{observer.disconnect()}, false)
